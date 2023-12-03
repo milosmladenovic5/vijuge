@@ -21,7 +21,7 @@ namespace Vijuge.Web.Configuration
 
         public static ConfigurationManager AddConfiguration(this ConfigurationManager config)
         {
-            config.AddJsonFile("Config/VijgueConfig.json", optional: false, reloadOnChange: true);
+            config.AddJsonFile("Config/VijgueConfig.json", optional: true, reloadOnChange: true);
             return config;
         }
     }
