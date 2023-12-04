@@ -21,6 +21,7 @@ namespace Vijuge.Data
         {
             base.OnModelCreating(modelBuilder);
         }
+
         public static async Task Seed(UserManager<UserDbModel> userManager, RoleManager<IdentityRole> roleManager)
         {
             await DefaultRoles.SeedAsync(roleManager);

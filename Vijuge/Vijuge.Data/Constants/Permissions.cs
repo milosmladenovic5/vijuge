@@ -18,6 +18,7 @@ namespace Vijuge.Data.Constants
                 $"Permissions.{module}.Delete",
             };
         }
+
         public static class Users
         {
             public const string View = "Permissions.Users.View";

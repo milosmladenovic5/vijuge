@@ -8,7 +8,7 @@ namespace Vijuge.Web.Configuration
     {
         public static IServiceCollection AddDatabaseses(this IServiceCollection services, IConfiguration config)
         {
-            services.AddDbContext<VijugeDbContext>(/* set options */);
+            services.AddSqlServer<VijugeDbContext>(config.GetConnectionString("GameDatabase"), options => options.EnableRetryOnFailure());
 
             return services;
         }
