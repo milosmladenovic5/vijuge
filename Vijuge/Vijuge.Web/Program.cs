@@ -1,13 +1,9 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
-using System.Security.Claims;
 using System.Text;
 using Vijuge.Data;
-using Vijuge.Data.Models;
 using Vijuge.Web.Configuration;
 
 // Add services to the container.
@@ -21,11 +17,16 @@ try
     builder.Configuration.AddConfiguration();
 
     builder.Services.AddControllers();
+
     builder.Services.AddDatabaseses(builder.Configuration);
     builder.Services.AddServices(builder.Configuration);
 
     builder.Services.AddIdentityCore<IdentityUser>()
                     .AddEntityFrameworkStores<VijugeDbContext>();
+
+    //builder.Services.AddTransient<IAccountRepository, AccountRepository>();
+    //builder.Services.AddTransient<IGameRepository, GameRepository>();
+
 
     builder.Services.AddMvc();
 
@@ -59,6 +60,16 @@ try
     app.UseAuthorization();
 
     app.MapControllers();
+
+    //var scopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
+    //using (var scope = scopeFactory.CreateScope())
+    //{
+    //    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    //    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<UserDTO>>();
+
+    //    await VijugeDbContext.Seed(userManager, roleManager);
+    //}
+
     app.Run();
 
 }
