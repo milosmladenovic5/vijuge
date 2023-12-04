@@ -6,17 +6,17 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Vijuge.Data.Constants;
-using Vijuge.Data.Models;
+using Vijuge.Data.Models.DTOs;
 
 namespace Vijuge.Data.Seeds
 {
     public static class DefaultUsers
     {
-        public static async Task SeedSuperAdminAsync(UserManager<UserDbModel> userManager, RoleManager<IdentityRole> roleManager)
+        public static async Task SeedSuperAdminAsync(UserManager<UserDTO> userManager, RoleManager<IdentityRole> roleManager)
         {
             try
             {
-                var defaultUser = new UserDbModel()
+                var defaultUser = new UserDTO()
                 {
                     FirstName = "Darko",
                     LastName = "Zvezdanovic",

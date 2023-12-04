@@ -23,6 +23,12 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
+    <Folder Include="Services\Interface\" />
+    <Folder Include="Services\Implementation\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Vijuge.Common\Vijuge.Common.csproj" />
   </ItemGroup>
 
 </Project>

@@ -7,7 +7,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Vijuge.Data.Models;
+using Vijuge.Data.Models.DTOs;
 using Vijuge.Data.Seeds;
 
 namespace Vijuge.Data
@@ -22,12 +22,12 @@ namespace Vijuge.Data
             base.OnModelCreating(modelBuilder);
         }
 
-        public static async Task Seed(UserManager<UserDbModel> userManager, RoleManager<IdentityRole> roleManager)
+        public static async Task Seed(UserManager<UserDTO> userManager, RoleManager<IdentityRole> roleManager)
         {
             await DefaultRoles.SeedAsync(roleManager);
             await DefaultUsers.SeedSuperAdminAsync(userManager, roleManager);
         }
 
-        public DbSet<UserDbModel> Users {  get; set; }
+        public DbSet<UserDTO> Users {  get; set; }
     }
 }

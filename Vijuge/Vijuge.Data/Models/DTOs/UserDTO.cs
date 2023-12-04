@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Vijuge.Data.Models
+namespace Vijuge.Data.Models.DTOs
 {
-    public class UserDbModel
+    public class UserDTO
     {
         public int Id { get; set; }
         public string FirstName { get; set; }
