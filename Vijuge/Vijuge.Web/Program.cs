@@ -64,15 +64,6 @@ try
 
     app.MapControllers();
 
-    var scopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
-    using (var scope = scopeFactory.CreateScope())
-    {
-        var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-        var userManager = scope.ServiceProvider.GetRequiredService<UserManager<UserDTO>>();
-
-        await VijugeDbContext.Seed(userManager, roleManager);
-    }
-
     app.Run();
 
 }
