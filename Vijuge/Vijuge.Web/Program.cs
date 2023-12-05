@@ -4,6 +4,9 @@ using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using System.Text;
 using Vijuge.Data;
+using Vijuge.Data.Models.DTOs;
+using Vijuge.Data.Repositories.Implementation;
+using Vijuge.Data.Repositories.Interface;
 using Vijuge.Web.Configuration;
 
 // Add services to the container.
@@ -24,8 +27,8 @@ try
     builder.Services.AddIdentityCore<IdentityUser>()
                     .AddEntityFrameworkStores<VijugeDbContext>();
 
-    //builder.Services.AddTransient<IAccountRepository, AccountRepository>();
-    //builder.Services.AddTransient<IGameRepository, GameRepository>();
+    builder.Services.AddTransient<IAccountRepository, AccountRepository>();
+    builder.Services.AddTransient<IGameRepository, GameRepository>();
 
 
     builder.Services.AddMvc();
@@ -61,14 +64,14 @@ try
 
     app.MapControllers();
 
-    //var scopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
-    //using (var scope = scopeFactory.CreateScope())
-    //{
-    //    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-    //    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<UserDTO>>();
+    var scopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
+    using (var scope = scopeFactory.CreateScope())
+    {
+        var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+        var userManager = scope.ServiceProvider.GetRequiredService<UserManager<UserDTO>>();
 
-    //    await VijugeDbContext.Seed(userManager, roleManager);
-    //}
+        await VijugeDbContext.Seed(userManager, roleManager);
+    }
 
     app.Run();
 

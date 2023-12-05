@@ -8,18 +8,18 @@ namespace Vijuge.Web.Controllers
     [Route("[controller]")]
     public class AccountController : Controller
     {
-        //private readonly SignInManager<UserDTO> _signInManager;
-        //private readonly ILogger<UserDTO> _logger;
-        //private readonly UserManager<UserDTO> _userManager;
+        private readonly SignInManager<UserDTO> _signInManager;
+        private readonly ILogger<UserDTO> _logger;
+        private readonly UserManager<UserDTO> _userManager;
 
-        //public string ReturnUrl { get; set; }
+        public string ReturnUrl { get; set; }
 
-        //public AccountController(SignInManager<UserDTO> signInManager, ILogger<UserDTO> logger, UserManager<UserDTO> userManager)
-        //{
-        //    this._signInManager = signInManager;
-        //    this._logger = logger;
-        //    this._userManager = userManager;
-        //}
+        public AccountController(SignInManager<UserDTO> signInManager, ILogger<UserDTO> logger, UserManager<UserDTO> userManager)
+        {
+            this._signInManager = signInManager;
+            this._logger = logger;
+            this._userManager = userManager;
+        }
 
         public IActionResult Index()
         {

@@ -1,4 +1,4 @@
-﻿namespace Vijuge.Web.Repositories.Interface
+﻿namespace Vijuge.Data.Repositories.Interface
 {
     public interface IAccountRepository
     {
