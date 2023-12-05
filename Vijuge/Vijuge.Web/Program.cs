@@ -24,7 +24,7 @@ try
     builder.Services.AddDatabaseses(builder.Configuration);
     builder.Services.AddServices(builder.Configuration);
 
-    builder.Services.AddIdentityCore<IdentityUser>()
+    builder.Services.AddIdentityCore<UserDTO>()
                     .AddEntityFrameworkStores<VijugeDbContext>();
 
     builder.Services.AddTransient<IAccountRepository, AccountRepository>();
