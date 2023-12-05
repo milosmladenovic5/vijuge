@@ -2,6 +2,9 @@
 using Vijuge.Data;
 using Vijuge.Data.Models.DTOs;
 using Vijuge.Data.Repositories.Interface;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using Vijuge.Data.ViewModels;
 
 namespace Vijuge.Data.Repositories.Implementation
 {
@@ -21,8 +24,16 @@ namespace Vijuge.Data.Repositories.Implementation
             return true;
         }
 
-        public async Task<bool> EditAccount(string userId)
+        public async Task<bool> EditAccount(UserViewModel user)
         {
+            var userDto = await _context.Users.Where(u => u.UserName == user.UserName).FirstOrDefaultAsync();
+            if (user != null)
+            {
+                userDto.UserName = user.UserName;
+                userDto.Email = user.Email;
+                userDto.Active = user.Active;
+                userDto.Password = user.Password;
+            }
             return true;
         }
 

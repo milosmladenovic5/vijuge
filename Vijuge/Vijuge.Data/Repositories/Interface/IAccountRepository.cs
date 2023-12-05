@@ -1,9 +1,11 @@
-﻿namespace Vijuge.Data.Repositories.Interface
+﻿using Vijuge.Data.ViewModels;
+
+namespace Vijuge.Data.Repositories.Interface
 {
     public interface IAccountRepository
     {
         Task<bool> CreateAccount();
-        Task<bool> EditAccount(string userId);
+        Task<bool> EditAccount(UserViewModel userViewModel);
         Task<bool> DeleteAccount(string userId);
         Task<bool> LogIn();
         Task<bool> LogOut();
