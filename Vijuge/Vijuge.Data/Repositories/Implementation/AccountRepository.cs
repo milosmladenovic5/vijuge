@@ -1,30 +1,48 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Vijuge.Data;
+using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using System.Text;
 using Vijuge.Data.Models.DTOs;
 using Vijuge.Data.Repositories.Interface;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
-using Vijuge.Data.ViewModels;
 
 namespace Vijuge.Data.Repositories.Implementation
 {
     public class AccountRepository : IAccountRepository
     {
         private readonly UserManager<UserDTO> _userManager;
+        private readonly SignInManager<UserDTO> _signInManager;
         private readonly VijugeDbContext _context;
+        private readonly ILogger<UserDTO> _logger;
 
-        public AccountRepository(UserManager<UserDTO> userManager, VijugeDbContext context)
+        public AccountRepository(UserManager<UserDTO> userManager, VijugeDbContext context, ILogger<UserDTO> logger, SignInManager<UserDTO> signInManager)
         {
-            this._userManager = userManager;
-            this._context = context;
+            _userManager = userManager;
+            _context = context;
+            _logger = logger;
+            _signInManager = signInManager;
         }
 
-        public async Task<bool> CreateAccount() // <=> Register
+        public async Task<bool> CreateAccount(UserDTO user) // <=> Register
         {
-            return true;
+            var result = await _userManager.CreateAsync(user, user.Password);
+
+            if (result.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(user, "User");
+                _logger.LogInformation("User created a new account with password.");
+
+                var userId = await _userManager.GetUserIdAsync(user);
+                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+
+                await _signInManager.SignInAsync(user, isPersistent: false);
+                return true;
+            }
+            return false;
         }
 
-        public async Task<bool> EditAccount(UserViewModel user)
+        public async Task<bool> EditAccount(UserDTO user)
         {
             var userDto = await _context.Users.Where(u => u.UserName == user.UserName).FirstOrDefaultAsync();
             if (user != null)
@@ -50,14 +68,17 @@ namespace Vijuge.Data.Repositories.Implementation
             return false;
         }
 
-        public async Task<bool> LogIn()
+        public async Task<bool> LogIn(UserDTO userDTO)
         {
-            return true;
+            var result = await _signInManager.PasswordSignInAsync(userDTO.UserName,
+               userDTO.Password, false, false);
+
+            return result.Succeeded;
         }
 
-        public async Task<bool> LogOut()
+        public async Task LogOut()
         {
-            return true;
+            await _signInManager.SignOutAsync();
         }
     }
 }

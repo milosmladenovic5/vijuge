@@ -29,5 +29,9 @@ namespace Vijuge.Data
         }
 
         public DbSet<UserDTO> Users {  get; set; }
+        public DbSet<QuestionDTO> Questions { get; set; }
+        public DbSet<PlayerDTO> Players { get; set; }
+        public DbSet<AnswerDTO> Answers { get; set; }
+        public DbSet<AnswerGroupDTO> AnswersGroups { get; set;}
     }
 }

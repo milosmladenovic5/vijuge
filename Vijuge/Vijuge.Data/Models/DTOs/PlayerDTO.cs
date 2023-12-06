@@ -9,6 +9,6 @@
 
         public bool LoggedIn { get; set; }
         public int Rank { get; set; }
-        public long PointsCollected { get; set; }
+        public double PointsCollected { get; set; }  
     }
 }

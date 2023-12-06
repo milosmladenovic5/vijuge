@@ -3,7 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Text;
 using Vijuge.Data.Models.DTOs;
-using Vijuge.Data.ViewModels;
+using Vijuge.Logic.Services.Implementation;
+using Vijuge.Logic.ViewModels;
 
 namespace Vijuge.Web.Controllers
 {
@@ -11,23 +12,22 @@ namespace Vijuge.Web.Controllers
     [Route("[controller]")]
     public class AccountController : Controller
     {
-        private readonly SignInManager<UserDTO> _signInManager;
-        private readonly ILogger<UserDTO> _logger;
-        private readonly UserManager<UserDTO> _userManager;
+        private readonly IUserService _userService;
+        private readonly ILogger<AccountController> _logger;
 
         public string ReturnUrl { get; set; }
 
-        public AccountController(SignInManager<UserDTO> signInManager, ILogger<UserDTO> logger, UserManager<UserDTO> userManager)
+        public AccountController(IUserService userService, ILogger<AccountController> logger)
         {
-            this._signInManager = signInManager;
-            this._logger = logger;
-            this._userManager = userManager;
+            this._userService = userService;
+            _logger = logger;
         }
 
         public IActionResult Index()
         {
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> Register(UserViewModel userReg, string returnUrl = null)
         {
@@ -35,28 +35,9 @@ namespace Vijuge.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                var user = new UserDTO() { UserName = userReg.UserName, Email = userReg.Email };
+                var result = await _userService.Register(userReg);
 
-                var result = await _userManager.CreateAsync(user, userReg.Password);
-
-                if (result.Succeeded)
-                {
-                    await _userManager.AddToRoleAsync(user, "User");
-                    _logger.LogInformation("User created a new account with password.");
-
-                    var userId = await _userManager.GetUserIdAsync(user);
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-
-
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    return StatusCode(200, returnUrl);
-
-                }
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, error.Description);
-                }
+                return StatusCode(result ? 200 : 500);
             }
             return StatusCode(500);
         }
@@ -68,10 +49,9 @@ namespace Vijuge.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(model.UserName,
-                   model.Password, false, false);
+                var loginResult = await _userService.Login(model);
 
-                if (result.Succeeded)
+                if (loginResult)
                 {
                     return StatusCode(200, ReturnUrl);
                 }
@@ -86,11 +66,10 @@ namespace Vijuge.Web.Controllers
 
         public async Task<IActionResult> Logout()
         {
-            await _signInManager.SignOutAsync();
+            await _userService.Logout();
             _logger.LogInformation("User logged out.");
 
             return StatusCode(200, "Home");
-
         }
 
         public async Task<IActionResult> Edit()
