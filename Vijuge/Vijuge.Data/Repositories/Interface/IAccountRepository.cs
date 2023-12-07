@@ -11,5 +11,8 @@ namespace Vijuge.Data.Repositories.Interface
         Task<bool> DeleteAccount(string userId);
         Task<bool> LogIn(UserDTO user);
         Task LogOut();
+
+        IEnumerable<UserDTO> GetAllAccounts();
+        Task<UserDTO> GetAccountById();
     }
 }

@@ -45,7 +45,7 @@ namespace Vijuge.Data.Repositories.Implementation
         public async Task<bool> EditAccount(UserDTO user)
         {
             var userDto = await _context.Users.Where(u => u.UserName == user.UserName).FirstOrDefaultAsync();
-            if (user != null)
+            if (userDto != null)
             {
                 userDto.UserName = user.UserName;
                 userDto.Email = user.Email;
@@ -79,6 +79,16 @@ namespace Vijuge.Data.Repositories.Implementation
         public async Task LogOut()
         {
             await _signInManager.SignOutAsync();
+        }
+
+        public IEnumerable<UserDTO> GetAllAccounts()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<UserDTO> GetAccountById()
+        {
+            throw new NotImplementedException();
         }
     }
 }

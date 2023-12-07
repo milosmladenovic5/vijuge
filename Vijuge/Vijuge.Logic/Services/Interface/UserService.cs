@@ -23,7 +23,7 @@ namespace Vijuge.Logic.Services.Interface
             _mapper = mapper;
         }
 
-        public async Task<bool> Login(LoginViewModel userVM)
+        public async Task<bool> Login(LoginModel userVM)
         {
             var userDTO = _mapper.Map<UserDTO>(userVM);
             return await _accountRepository.LogIn(userDTO);
@@ -34,7 +34,7 @@ namespace Vijuge.Logic.Services.Interface
             return _accountRepository.LogOut();
         }
 
-        public Task<bool> Register(UserViewModel userVM)
+        public Task<bool> Register(UserModel userVM)
         {
             var userDTO = new UserDTO() { UserName = userVM.UserName, Email = userVM.Email };
 

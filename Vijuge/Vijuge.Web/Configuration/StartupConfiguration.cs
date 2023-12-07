@@ -1,6 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Vijuge.Data;
 using Serilog;
+using Vijuge.Data.Repositories.Implementation;
+using Vijuge.Data.Repositories.Interface;
+using Vijuge.Logic.Services.Implementation;
+using Vijuge.Logic.Services.Interface;
 
 namespace Vijuge.Web.Configuration
 {
@@ -13,9 +17,13 @@ namespace Vijuge.Web.Configuration
             return services;
         }
         
-
         public static IServiceCollection AddServices(this IServiceCollection services, ConfigurationManager confManager)
         {
+            services.AddScoped<IAccountRepository, AccountRepository>();
+            services.AddScoped<IGameRepository, GameRepository>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IGameService, GameService>();
+
             return services;
         }
 

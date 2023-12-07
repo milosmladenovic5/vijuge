@@ -15,6 +15,7 @@ try
 {
     var builder = WebApplication.CreateBuilder(args);
 
+    builder.Services.AddAutoMapper(typeof(Program));
     builder.Services.AddDatabaseses(builder.Configuration);
 
     builder.Configuration.AddConfiguration();
@@ -26,10 +27,6 @@ try
 
     builder.Services.AddIdentityCore<UserDTO>()
                     .AddEntityFrameworkStores<VijugeDbContext>();
-
-    builder.Services.AddTransient<IAccountRepository, AccountRepository>();
-    builder.Services.AddTransient<IGameRepository, GameRepository>();
-
 
     builder.Services.AddMvc();
 

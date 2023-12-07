@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Vijuge.Logic.ViewModels
 {
-    public class UserViewModel
+    public class UserModel
     {
         [Required(ErrorMessage = "Please enter UserName")]
         [Display(Name = "UserName")]

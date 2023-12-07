@@ -24,6 +24,10 @@ namespace Vijuge.Logic.Services.Interface
 
         public async Task StartWaitingForOponent(int userId)
         {
+            var currentPlayer = _playerRepository.GetPlayerByUserId(userId);
+            var freePlayers = _playerRepository.GetAllFreePlayers();
+
+
             /* TODO
              * 1. Fetch appropriate player from player repository
              * 2. Set that the player is logged in

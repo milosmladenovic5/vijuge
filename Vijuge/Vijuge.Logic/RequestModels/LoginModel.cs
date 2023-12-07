@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Vijuge.Logic.ViewModels
 {
-    public class LoginViewModel
+    public class LoginModel
     {
         [Required(ErrorMessage = "Please enter Username")]
         [Display(Name = "Username")]
@@ -20,7 +20,7 @@ namespace Vijuge.Logic.ViewModels
 
         public string ReturnUrl { get; set; }
 
-        public LoginViewModel()
+        public LoginModel()
         {
             ReturnUrl = "";
         }

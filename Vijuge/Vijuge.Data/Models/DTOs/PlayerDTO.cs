@@ -8,6 +8,7 @@
         public UserDTO User { get; set; }
 
         public bool LoggedIn { get; set; }
+        public bool Playing { get; set; }
         public int Rank { get; set; }
         public double PointsCollected { get; set; }  
     }

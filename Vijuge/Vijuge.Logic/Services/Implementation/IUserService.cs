@@ -4,9 +4,9 @@ namespace Vijuge.Logic.Services.Implementation
 {
     public interface IUserService
     {
-        Task<bool> Register(UserViewModel userVM);
+        Task<bool> Register(UserModel userVM);
 
-        Task<bool> Login(LoginViewModel userVM);
+        Task<bool> Login(LoginModel userVM);
 
         Task Logout();
     }

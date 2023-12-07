@@ -29,7 +29,7 @@ namespace Vijuge.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(UserViewModel userReg, string returnUrl = null)
+        public async Task<IActionResult> Register(UserModel userReg, string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/Home");
 
@@ -43,7 +43,7 @@ namespace Vijuge.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Login(LoginViewModel model)
+        public async Task<ActionResult> Login(LoginModel model)
         {
             ReturnUrl ??= Url.Content("~/Home");
 
@@ -72,7 +72,7 @@ namespace Vijuge.Web.Controllers
             return StatusCode(200, "Home");
         }
 
-        public async Task<IActionResult> Edit()
+        public async Task<IActionResult> Edit(UserModel userReg)
         {
             return StatusCode(200);
         }
